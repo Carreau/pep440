@@ -30,10 +30,13 @@ pep440re = re.compile('^([1-9]\d*!)?'        # [N!]
                       '(\.dev[1-9]\d*)?$'         # [.devN]
                       )
 
-def is_valid(version):
+def is_canonical(version)->bool:
+    """
+    Retunr wether or not the version string is canonical according to Pep 440
+    """
     return pep440re.match(version) is not None
 
 def assert_valid(version):
-    if not is_valid(version):
-        raise ValueError("Version string {!r} does not match PEP 440 specification".format(version))
+    if not is_canonical(version):
+        raise AssertionError("Version string {!r} does not match PEP 440 specification".format(version))
         
