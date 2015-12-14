@@ -1,6 +1,6 @@
 
 """
-A simple Package that expose utils to check wether versions number match pep440.
+A simple package with utils to check whether versions number match PEP 440.
 
 https://www.python.org/dev/peps/pep-0440/
 
@@ -35,5 +35,5 @@ def is_valid(version):
 
 def assert_valid(version):
     if not is_valid(version):
-        raise ValueError("Versions String does apparently not match Pep 440 specification")
+        raise ValueError("Version string {!r} does not match PEP 440 specification".format(version))
         
