@@ -16,10 +16,13 @@ False
 
 """
 
+from argparse import ArgumentParser
+
+import re
+import sys
 
 __version__ = '0.0.2'
 
-import re
 
 posint = '(0|[1-9]\d*)'
 
@@ -42,4 +45,22 @@ def is_canonical(version)->bool:
 def assert_valid(version):
     if not is_canonical(version):
         raise AssertionError("Version string {!r} does not match PEP 440 specification".format(version))
-        
+
+
+def main():
+    parser = ArgumentParser()
+    parser.add_argument('version', nargs='?')
+    parser.add_argument('--verbose', nargs='?')
+    args = parser.parse_args()
+
+    if args.version:
+        c=is_canonical(args.version)
+        if c:
+            print('Version is canonical according to Pep 440')
+        else:
+            print('Version is not canonical according to Pep 440')
+        sys.exit(not c)
+
+    parser.print_help()
+    sys.exit(-1)
+
