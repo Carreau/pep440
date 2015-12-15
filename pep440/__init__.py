@@ -17,18 +17,21 @@ False
 """
 
 
-__version__ = '0.0.1'
+__version__ = '0.0.2'
 
 import re
 
+posint = '(0|[1-9]\d*)'
 
-pep440re = re.compile('^([1-9]\d*!)?'        # [N!]
-                      '([1-9]\d*)'           # N
-                      '(.[1-9]\d*)*'         # (.N)*
-                      '((a|b|rc)[0-9]\d*)?' # [{a|b|rc}N]
-                      '(\.post[1-9]\d*)?'         # [.postN]
-                      '(\.dev[1-9]\d*)?$'         # [.devN]
-                      )
+string_re = ('^' # Start
+            '([1-9]\d*!)?'        # [N!]
+            '{posint}'            # N
+            '(.{posint})*'        # (.N)*
+            '((a|b|rc){posint})?' # [{a|b|rc}N]
+            '(\.post{posint})?'  # [.postN]
+            '(\.dev{posint})?'   # [.devN]
+            '$'.format(posint=posint))
+pep440re = re.compile(string_re)
 
 def is_canonical(version)->bool:
     """
