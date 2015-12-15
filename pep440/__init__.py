@@ -7,11 +7,11 @@ https://www.python.org/dev/peps/pep-0440/
 
 Example
 
->>> from pep440 import is_valid
->>> is_valid('4.1.0')
+>>> from pep440 import is_canonical
+>>> is_canonical('4.1.0')
 True
 
->>> is_valid('4.2.1.beta2')  # 4.2.1b2 is correct
+>>> is_canonical('4.2.1.beta2')  # 4.2.1b2 is correct
 False
 
 """
