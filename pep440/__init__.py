@@ -26,20 +26,26 @@ __version__ = '0.0.2'
 
 posint = '(0|[1-9]\d*)'
 
-string_re = ('^' # Start
+# 0!0.0.0rc0.post0.dev0
+
+tpl_string_re = ('^' # Start
             '([1-9]\d*!)?'        # [N!]
             '{posint}'            # N
-            '(.{posint})*'        # (.N)*
+            '(\.{posint})*'        # (.N)*
             '((a|b|rc){posint})?' # [{a|b|rc}N]
             '(\.post{posint})?'  # [.postN]
-            '(\.dev{posint})?'   # [.devN]
-            '$'.format(posint=posint))
+            '(\.dev{postdev})?'   # [.devN]
+            '$')
+string_re = tpl_string_re.format(posint=posint, postdev=posint)
+loose440re = re.compile(tpl_string_re.format(posint=posint, postdev=(posint+'?')))
 pep440re = re.compile(string_re)
 
-def is_canonical(version)->bool:
+def is_canonical(version, loosedev=False)->bool:
     """
-    Retunr wether or not the version string is canonical according to Pep 440
+    Return whether or not the version string is canonical according to Pep 440
     """
+    if loosedev:
+        return loose440re.match(version) is not None
     return pep440re.match(version) is not None
 
 def assert_valid(version):

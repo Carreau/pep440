@@ -36,6 +36,10 @@ def test_ok():
         assert is_canonical(version)
 
 def test_not_ok():
-    for verion in not_ok:
-        assert is_canonical('1!2.3.4.rc5.post6.dev7') == False
+    for version in not_ok:
+        assert is_canonical(version) == False
+
+def test_ok_loose():
+    assert is_canonical('2.3.4.dev', loosedev=True) == True
+
 
