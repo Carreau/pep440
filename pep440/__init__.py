@@ -21,7 +21,7 @@ from argparse import ArgumentParser
 import re
 import sys
 
-__version__ = '0.0.2'
+__version__ = '0.0.3'
 
 
 posint = '(0|[1-9]\d*)'
@@ -40,7 +40,7 @@ string_re = tpl_string_re.format(posint=posint, postdev=posint)
 loose440re = re.compile(tpl_string_re.format(posint=posint, postdev=(posint+'?')))
 pep440re = re.compile(string_re)
 
-def is_canonical(version, loosedev=False)->bool:
+def is_canonical(version, loosedev=False):
     """
     Return whether or not the version string is canonical according to Pep 440
     """
