@@ -6,6 +6,6 @@ python:
 before_install:
     - pip install flit pytest
 install:
-    - flit install --symlink
+    - flit install
 script:
     - py.test
