@@ -15,42 +15,20 @@ True
 False
 
 """
+__version__ = '0.1.0'
 
 from argparse import ArgumentParser
-
-import re
 import sys
 
-__version__ = '0.0.3'
+from .core import (posint,
+    tpl_string_re,
+    string_re,
+    loose440re,
+    pep440re, 
+    is_canonical,
+    assert_valid)
 
 
-posint = '(0|[1-9]\d*)'
-
-# 0!0.0.0rc0.post0.dev0
-
-tpl_string_re = ('^' # Start
-            '([1-9]\d*!)?'        # [N!]
-            '{posint}'            # N
-            '(\.{posint})*'        # (.N)*
-            '((a|b|rc){posint})?' # [{a|b|rc}N]
-            '(\.post{posint})?'  # [.postN]
-            '(\.dev{postdev})?'   # [.devN]
-            '$')
-string_re = tpl_string_re.format(posint=posint, postdev=posint)
-loose440re = re.compile(tpl_string_re.format(posint=posint, postdev=(posint+'?')))
-pep440re = re.compile(string_re)
-
-def is_canonical(version, loosedev=False):
-    """
-    Return whether or not the version string is canonical according to Pep 440
-    """
-    if loosedev:
-        return loose440re.match(version) is not None
-    return pep440re.match(version) is not None
-
-def assert_valid(version):
-    if not is_canonical(version):
-        raise AssertionError("Version string {!r} does not match PEP 440 specification".format(version))
 
 
 def main():
@@ -69,4 +47,3 @@ def main():
 
     parser.print_help()
     sys.exit(-1)
-
