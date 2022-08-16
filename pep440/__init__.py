@@ -1,4 +1,3 @@
-
 """
 A simple package with utils to check whether versions number match PEP 440.
 
@@ -20,29 +19,29 @@ __version__ = "0.1.1"
 from argparse import ArgumentParser
 import sys
 
-from .core import (posint,
+from .core import (
+    posint,
     tpl_string_re,
     string_re,
     loose440re,
-    pep440re, 
+    pep440re,
     is_canonical,
-    assert_valid)
-
-
+    assert_valid,
+)
 
 
 def main():
     parser = ArgumentParser()
-    parser.add_argument('version', nargs='?')
-    parser.add_argument('--verbose', nargs='?')
+    parser.add_argument("version", nargs="?")
+    parser.add_argument("--verbose", nargs="?")
     args = parser.parse_args()
 
     if args.version:
-        c=is_canonical(args.version)
+        c = is_canonical(args.version)
         if c:
-            print('Version is canonical according to Pep 440')
+            print("Version is canonical according to Pep 440")
         else:
-            print('Version is not canonical according to Pep 440')
+            print("Version is not canonical according to Pep 440")
         sys.exit(not c)
 
     parser.print_help()
