@@ -15,7 +15,7 @@ True
 False
 
 """
-__version__ = '0.1.0'
+__version__ = "0.1.1"
 
 from argparse import ArgumentParser
 import sys
