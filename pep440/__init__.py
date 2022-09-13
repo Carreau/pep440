@@ -15,7 +15,6 @@ False
 
 """
 __version__ = "0.1.1"
-
 from argparse import ArgumentParser
 import sys
 
@@ -30,7 +29,7 @@ from .core import (
 )
 
 
-def main():
+def main() -> None:
     parser = ArgumentParser()
     parser.add_argument("version", nargs="?")
     parser.add_argument("--verbose", nargs="?")
@@ -45,4 +44,4 @@ def main():
         sys.exit(not c)
 
     parser.print_help()
-    sys.exit(-1)
+    sys.exit(2)

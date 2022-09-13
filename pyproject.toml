@@ -1,14 +1,49 @@
 [build-system]
-requires = ["flit_core >=2,<4"]
+requires = ["flit_core >=3.4,<4"]
 build-backend = "flit_core.buildapi"
 
-[tool.flit.metadata]
-module = "pep440"
-author = "Matthias Bussonnier"
-author-email = "bussonniermatthias@gmail.com"
-home-page = "https://github.com/Carreau/pep440"
+[project]
+name = "pep440"
+authors = [
+    {name = "Matthias Bussonnier", email = "bussonniermatthias@gmail.com"},
+]
+readme = "readme.md"
 classifiers = [
     "License :: OSI Approved :: MIT License",
 ]
-description-file = "readme.md"
+requires-python = ">=3.7"
+dynamic = ["version", "description"]
 
+[project.scripts]
+pep440 = "pep440.__main__:main"
+
+[project.urls]
+Homepage =  "https://github.com/Carreau/pep440"
+
+[project.optional-dependencies]
+test = [
+    "pytest-console-scripts",
+    "pytest-cov",
+    "pytest",
+]
+lint = [
+    "check-manifest",
+    "mypy",
+]
+
+[tool.flit.sdist]
+include = [
+    "tests/",
+    "LICENSE"
+]
+
+[tool.check-manifest]
+ignore = [
+    "tests/__pycache__/*.pyc",
+]
+
+[tool.pytest.ini_options]
+testpaths = [
+    "tests/",
+]
+script_launch_mode = "subprocess"

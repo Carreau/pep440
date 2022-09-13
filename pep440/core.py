@@ -1,4 +1,4 @@
-# This fiel is part of the python package pep 440
+# This file is part of the python package ``pep440``
 # Feel free to vendor just this file, if should contain all you need.
 #
 #  Vendored version of commit <put the commit here>
@@ -28,26 +28,26 @@
 ###############################################################################
 import re
 
-posint = "(0|[1-9]\d*)"
+posint = r"(0|[1-9]\d*)"
 
 # 0!0.0.0rc0.post0.dev0
 
 tpl_string_re = (
-    "^"  # Start
-    "([1-9]\d*!)?"  # [N!]
-    "{posint}"  # N
-    "(\.{posint})*"  # (.N)*
-    "((a|b|rc){posint})?"  # [{a|b|rc}N]
-    "(\.post{posint})?"  # [.postN]
-    "(\.dev{postdev})?"  # [.devN]
-    "$"
+    r"^"  # Start
+    r"([1-9]\d*!)?"  # [N!]
+    r"{posint}"  # N
+    r"(\.{posint})*"  # (.N)*
+    r"((a|b|rc){posint})?"  # [{a|b|rc}N]
+    r"(\.post{posint})?"  # [.postN]
+    r"(\.dev{postdev})?"  # [.devN]
+    r"$"
 )
 string_re = tpl_string_re.format(posint=posint, postdev=posint)
 loose440re = re.compile(tpl_string_re.format(posint=posint, postdev=(posint + "?")))
 pep440re = re.compile(string_re)
 
 
-def is_canonical(version, loosedev=False):
+def is_canonical(version: str, loosedev: bool=False) -> bool:
     """
     Return whether or not the version string is canonical according to Pep 440
     """
@@ -56,7 +56,7 @@ def is_canonical(version, loosedev=False):
     return pep440re.match(version) is not None
 
 
-def assert_valid(version):
+def assert_valid(version: str) -> None:
     if not is_canonical(version):
         raise AssertionError(
             "Version string {!r} does not match PEP 440 specification".format(version)
