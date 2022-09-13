@@ -1,4 +1,6 @@
-from pep440 import is_canonical
+import pytest
+
+from pep440 import is_canonical, assert_valid
 
 ok = [
     "1!2.3.4rc5.post6.dev7",
@@ -38,11 +40,14 @@ not_ok = [
 def test_ok():
     for version in ok:
         assert is_canonical(version)
+        assert_valid(version)
 
 
 def test_not_ok():
     for version in not_ok:
         assert is_canonical(version) == False
+        with pytest.raises(AssertionError):
+            assert_valid(version)
 
 
 def test_ok_loose():
