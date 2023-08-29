@@ -14,7 +14,7 @@ True
 False
 
 """
-__version__ = "0.1.2"
+__version__ = "0.1.3"
 from argparse import ArgumentParser
 import sys
 
@@ -32,11 +32,11 @@ from .core import (
 def main() -> None:
     parser = ArgumentParser()
     parser.add_argument("version", nargs="?")
-    parser.add_argument("--verbose", nargs="?")
+    parser.add_argument("--no-check-local", action="store_false", dest="check_local")
     args = parser.parse_args()
 
     if args.version:
-        c = is_canonical(args.version)
+        c = is_canonical(args.version, check_local=args.check_local)
         if c:
             print("Version is canonical according to Pep 440")
         else:
