@@ -36,18 +36,44 @@ not_ok = [
     "0!0.0.0rc0.post0.dev0",  # 0 epoch is not canonical
 ]
 
+local_ok = ["+abc.5", "+123", "+1.2.3rc", ""]
 
-def test_ok():
-    for version in ok:
-        assert is_canonical(version)
-        assert_valid(version)
+local_not_ok = ["+", "+a*bc", "++.", "+@16", "+1.2.3+4"]
 
 
-def test_not_ok():
-    for version in not_ok:
-        assert is_canonical(version) == False
-        with pytest.raises(AssertionError):
-            assert_valid(version)
+@pytest.mark.parametrize("local", local_ok)
+@pytest.mark.parametrize("loose", [True, False])
+@pytest.mark.parametrize("version", ok)
+def test_ok(version, loose, local):
+    assert is_canonical(version + local, loosedev=loose)
+
+
+@pytest.mark.parametrize("local", local_ok)
+@pytest.mark.parametrize("version", ok)
+def test_ok(version, local):
+    assert_valid(version + local)
+
+
+@pytest.mark.parametrize("local", local_ok)
+@pytest.mark.parametrize("version", not_ok)
+def test_not_ok_version(version, local):
+    assert is_canonical(version + local) == False
+    with pytest.raises(AssertionError):
+        assert_valid(version + local)
+
+
+@pytest.mark.parametrize("local", local_not_ok)
+@pytest.mark.parametrize("version", ok)
+def test_not_ok_local(version, local):
+    assert is_canonical(version + local) == False
+    with pytest.raises(AssertionError):
+        assert_valid(version + local)
+
+
+@pytest.mark.parametrize("local", local_not_ok)
+@pytest.mark.parametrize("version", ok)
+def test_dont_check_local(version, local):
+    assert is_canonical(version + local, check_local=False) == True
 
 
 def test_ok_loose():

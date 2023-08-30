@@ -12,7 +12,7 @@ def cli(script_runner):
         env.update(kwargs.pop("env", {}))
         env["PYTHONIOENCODING"] = "utf-8"
         kwargs["env"] = env
-        return script_runner.run(NAME, *map(str, args), **kwargs)
+        return script_runner.run([NAME, *map(str, args)], **kwargs)
 
     return run_cli
 
